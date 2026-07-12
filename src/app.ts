@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import userRouter from "./app/modules/user/user.route";
+import globalErrorHandler from "./app/errors/globalErrorHandler";
 
 const app = express();
 
@@ -27,5 +28,8 @@ app.get("/", (_req, res) => {
 
 // API Routes
 app.use("/api/v1/users", userRouter);
+
+// Error handler
+app.use(globalErrorHandler);
 
 export default app;

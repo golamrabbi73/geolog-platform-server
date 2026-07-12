@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { UserModel } from "./user.model";
 import { RegisterUserInput } from "./user.validation";
 import { USER_ROLES, USER_STATUSES } from "../../../shared/types/common";
+import AppError from "../../errors/AppError";
 
 export const registerUser = async (
     payload: RegisterUserInput
@@ -12,7 +13,7 @@ export const registerUser = async (
     });
 
     if(existingUser){
-        throw new Error("Email already exists.");
+        throw new AppError(409, "Email already exists.");
     }
 
     // Hash password

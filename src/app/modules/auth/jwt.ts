@@ -1,5 +1,7 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
+
+// Access token generate
 export const generateAccessToken = (
   payload: object
 ) => {
@@ -12,6 +14,8 @@ export const generateAccessToken = (
   );
 };
 
+
+// Refresh token generate
 export const generateRefreshToken = (
   payload: object
 ) => {
@@ -22,4 +26,12 @@ export const generateRefreshToken = (
       expiresIn: "30d",
     }
   );
+};
+
+// Token verify
+export const verifyToken = (
+  token: string,
+  secret: string
+): JwtPayload => {
+  return jwt.verify(token, secret) as JwtPayload;
 };

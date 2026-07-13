@@ -3,7 +3,8 @@ import { UserModel } from "./user.model";
 import { LoginUserInput, RegisterUserInput } from "./user.validation";
 import { USER_ROLES, USER_STATUSES } from "../../../shared/types/common";
 import AppError from "../../errors/AppError";
-import { generateAccessToken, generateRefreshToken } from "../auth/jwt";
+import { generateAccessToken, generateRefreshToken, verifyToken } from "../auth/jwt";
+import { env } from "../../../config/env";
 
 // user register
 export const registerUser = async (
@@ -78,4 +79,25 @@ export const loginUser = async (
     refreshToken,
     user: userWithoutPassword,
     };
+};
+
+
+//  Token Verification
+export const refreshToken = async (token: string) => {
+  const decoded = verifyToken(token, env.JWT_REFRESH_SECRET);
+
+  const user = await UserModel.findById(decoded.userId);
+
+  if (!user) {
+    throw new AppError(404, "User not found.");
+  }
+
+  const accessToken = generateAccessToken({
+    userId: user._id,
+    role: user.role,
+  });
+
+  return {
+    accessToken,
+  };
 };

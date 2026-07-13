@@ -1,7 +1,7 @@
 import {z} from "zod";
 
 
-
+// User Registration Schema
 export const registerUserSchema = z.object({
     name: z
     .string()
@@ -23,3 +23,15 @@ export const registerUserSchema = z.object({
 });
 
 export type RegisterUserInput = z.infer<typeof registerUserSchema>;
+
+
+// User Login Schema
+export const loginUserSchema = z.object({
+  email: z.email("Invalid email address."),
+
+  password: z
+    .string()
+    .min(1, "Password is required."),
+});
+
+export type LoginUserInput = z.infer<typeof loginUserSchema>;

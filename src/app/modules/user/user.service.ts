@@ -101,3 +101,14 @@ export const refreshToken = async (token: string) => {
     accessToken,
   };
 };
+
+// getMe service: user data find by id from database
+export const getMe = async (userId: string) => {
+  const user = await UserModel.findById(userId);
+
+  if (!user) {
+    throw new AppError(404, "User not found.");
+  }
+
+  return user;
+};

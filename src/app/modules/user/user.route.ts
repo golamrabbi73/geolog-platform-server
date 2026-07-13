@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginUserController, logoutController, refreshTokenController, registerUserController } from "./user.controller";
+import { getMeController, loginUserController, logoutController, refreshTokenController, registerUserController } from "./user.controller";
 import validateRequest from "../../middleware/validateRequest";
 import { loginUserSchema, registerUserSchema } from "./user.validation";
 import auth from "../../middleware/auth";
@@ -30,6 +30,17 @@ userRouter.post(
 userRouter.post(
   "/logout",
   logoutController
+);
+
+// Get logged-in user profile
+userRouter.get(
+  "/me",
+  auth(
+    "fieldEngineer",
+    "manager",
+    "admin"
+  ),
+  getMeController
 );
 
 

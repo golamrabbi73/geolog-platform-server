@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { loginUser, refreshToken, registerUser } from "./user.service";
+import { getMe, loginUser, refreshToken, registerUser } from "./user.service";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 
@@ -64,6 +64,20 @@ export const logoutController = catchAsync(
       success: true,
       message: "Logged out successfully.",
       data: null,
+    });
+  }
+);
+
+// get me controller
+export const getMeController = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await getMe(req.user.userId);
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "User profile retrieved successfully.",
+      data: result,
     });
   }
 );

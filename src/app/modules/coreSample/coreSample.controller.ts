@@ -61,11 +61,19 @@ export const getAllCoreSamplesController = catchAsync(
       query.limit = req.query.limit.toString();
     }
 
-const result = await getAllCoreSamples(
-  req.user.userId,
-  req.user.role,
-  query
-);
+    const result = await getAllCoreSamples(
+      req.user.userId,
+      req.user.role,
+      query
+    );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Core samples retrieved successfully.",
+      data: result.data,
+      meta: result.meta,
+    });
   }
 );
 

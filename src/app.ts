@@ -5,6 +5,7 @@ import userRouter from "./app/modules/user/user.route";
 import globalErrorHandler from "./app/errors/globalErrorHandler";
 import coreSampleRouter from "./app/modules/coreSample/coreSample.route";
 import wellRouter from "./app/modules/well/well.route";
+import analyticsRouter from "./app/modules/analytics/analytics.route";
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.get("/", (_req, res) => {
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/core-samples", coreSampleRouter);
 app.use("/api/v1/wells", wellRouter);
+app.use("/api/v1/analytics", analyticsRouter);
 
 // Error handler
 app.use(globalErrorHandler);

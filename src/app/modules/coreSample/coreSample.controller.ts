@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { createCoreSample, getMyCoreSamples } from "./coreSample.service";
+import { createCoreSample, deleteCoreSample, getAllCoreSamples, getMyCoreSamples, updateCoreSample } from "./coreSample.service";
+import { IQuery } from "../../../shared/types/query";
 
 export const createCoreSampleController = catchAsync(
   async (req: Request, res: Response) => {
@@ -34,3 +35,73 @@ export const getMyCoreSamplesController =
       data: result,
     });
   });
+
+  // get all samples (role based) controller
+export const getAllCoreSamplesController = catchAsync(
+  async (req, res) => {
+    const query: IQuery = {};
+
+    if (req.query.searchTerm) {
+      query.searchTerm = req.query.searchTerm.toString();
+    }
+
+    if (req.query.rockType) {
+      query.rockType = req.query.rockType.toString();
+    }
+
+    if (req.query.wellName) {
+      query.wellName = req.query.wellName.toString();
+    }
+
+    if (req.query.page) {
+      query.page = req.query.page.toString();
+    }
+
+    if (req.query.limit) {
+      query.limit = req.query.limit.toString();
+    }
+
+const result = await getAllCoreSamples(
+  req.user.userId,
+  req.user.role,
+  query
+);
+  }
+);
+
+// update core sample controller
+export const updateCoreSampleController = catchAsync(
+  async (req, res) => {
+    const result = await updateCoreSample(
+      req.params.id as string,
+      req.body,
+      req.user.userId,
+      req.user.role
+    );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Core sample updated successfully.",
+      data: result,
+    });
+  }
+);
+
+// delete core sample controller
+export const deleteCoreSampleController = catchAsync(
+  async (req, res) => {
+    const result = await deleteCoreSample(
+      req.params.id as string,
+      req.user.userId,
+      req.user.role
+    );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Core sample deleted successfully.",
+      data: result,
+    });
+  }
+);

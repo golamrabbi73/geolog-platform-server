@@ -1,8 +1,17 @@
 import { Router } from "express";
 import auth from "../../middleware/auth";
 import validateRequest from "../../middleware/validateRequest";
-import { createCoreSampleController, getMyCoreSamplesController } from "./coreSample.controller";
-import { createCoreSampleSchema } from "./coreSample.validation";
+import {
+  createCoreSampleController,
+  getMyCoreSamplesController,
+  getAllCoreSamplesController,
+  updateCoreSampleController,
+  deleteCoreSampleController,
+} from "./coreSample.controller";
+import {
+  createCoreSampleSchema,
+  updateCoreSampleSchema,
+} from "./coreSample.validation";
 
 const coreSampleRouter = Router();
 
@@ -13,15 +22,33 @@ coreSampleRouter.post(
   createCoreSampleController
 );
 
-// get my sample route
+// get my samples
 coreSampleRouter.get(
   "/my-samples",
-  auth(
-    "fieldEngineer",
-    "manager",
-    "admin"
-  ),
+  auth("fieldEngineer", "manager", "admin"),
   getMyCoreSamplesController
+);
+
+// get all samples (role based)
+coreSampleRouter.get(
+  "/",
+  auth("fieldEngineer", "manager", "admin"),
+  getAllCoreSamplesController
+);
+
+// update sample
+coreSampleRouter.patch(
+  "/:id",
+  auth("fieldEngineer", "manager", "admin"),
+  validateRequest(updateCoreSampleSchema),
+  updateCoreSampleController
+);
+
+// delete sample
+coreSampleRouter.delete(
+  "/:id",
+  auth("fieldEngineer", "manager", "admin"),
+  deleteCoreSampleController
 );
 
 export default coreSampleRouter;

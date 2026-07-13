@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "./app/modules/user/user.route";
 import globalErrorHandler from "./app/errors/globalErrorHandler";
 import coreSampleRouter from "./app/modules/coreSample/coreSample.route";
+import wellRouter from "./app/modules/well/well.route";
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.get("/", (_req, res) => {
 // API Routes
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/core-samples", coreSampleRouter);
+app.use("/api/v1/wells", wellRouter);
 
 // Error handler
 app.use(globalErrorHandler);

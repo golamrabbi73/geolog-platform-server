@@ -17,3 +17,9 @@ export const createCoreSampleSchema = z.object({
 export type CreateCoreSampleInput = z.infer<
   typeof createCoreSampleSchema
 >;
+
+export const updateCoreSampleSchema = createCoreSampleSchema.partial();
+
+export type UpdateCoreSampleInput = z.infer<
+  typeof updateCoreSampleSchema
+>;

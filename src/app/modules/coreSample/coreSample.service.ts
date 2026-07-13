@@ -21,3 +21,14 @@ export const createCoreSample = async (
 
   return sample;
 };
+
+// get my core samples
+export const getMyCoreSamples = async (
+  userId: string
+) => {
+  return await CoreSampleModel.find({
+    collectedBy: userId,
+  }).sort({
+    createdAt: -1,
+  });
+};

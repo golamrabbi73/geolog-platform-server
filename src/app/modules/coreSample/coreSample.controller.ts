@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { createCoreSample } from "./coreSample.service";
+import { createCoreSample, getMyCoreSamples } from "./coreSample.service";
 
 export const createCoreSampleController = catchAsync(
   async (req: Request, res: Response) => {
@@ -18,3 +18,19 @@ export const createCoreSampleController = catchAsync(
     });
   }
 );
+
+// get my core samples controller
+export const getMyCoreSamplesController =
+  catchAsync(async (req, res) => {
+    const result = await getMyCoreSamples(
+      req.user.userId
+    );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message:
+        "Core samples retrieved successfully.",
+      data: result,
+    });
+  });

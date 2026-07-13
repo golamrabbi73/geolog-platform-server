@@ -1,4 +1,5 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { env } from "../../../config/env";
 
 
 // Access token generate
@@ -7,7 +8,7 @@ export const generateAccessToken = (
 ) => {
   return jwt.sign(
     payload,
-    process.env.JWT_ACCESS_SECRET!,
+    env.JWT_ACCESS_SECRET,
     {
       expiresIn: "15m",
     }
@@ -21,7 +22,7 @@ export const generateRefreshToken = (
 ) => {
   return jwt.sign(
     payload,
-    process.env.JWT_REFRESH_SECRET!,
+    env.JWT_REFRESH_SECRET,
     {
       expiresIn: "30d",
     }

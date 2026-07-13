@@ -32,17 +32,5 @@ userRouter.post(
   logoutController
 );
 
-// test auth
-userRouter.get(
-  "/test-auth",
-  auth,
-  (_req, res) => {
-    res.status(200).json({
-      success: true,
-      message: "Authentication successful.",
-    });
-  }
-);
-
 
 export default userRouter;

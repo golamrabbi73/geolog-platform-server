@@ -7,9 +7,15 @@ import {
   getAllWells,
   updateWell,
   deleteWell,
+  getWellById,
 } from "./well.service";
 import { IQuery } from "../../../shared/types/query";
 
+interface WellParams {
+  id: string;
+}
+
+// Create Well
 export const createWellController = catchAsync(
   async (req: Request, res: Response) => {
     const result = await createWell(
@@ -26,9 +32,9 @@ export const createWellController = catchAsync(
   }
 );
 
-// Get my well controller
+// Get My Wells
 export const getMyWellsController = catchAsync(
-  async (req, res) => {
+  async (req: Request, res: Response) => {
     const result = await getMyWells(
       req.user.userId
     );
@@ -42,24 +48,25 @@ export const getMyWellsController = catchAsync(
   }
 );
 
+// Get All Wells
 export const getAllWellsController = catchAsync(
-  async (req, res) => {
+  async (req: Request, res: Response) => {
     const query: IQuery = {};
 
     if (req.query.searchTerm) {
-    query.searchTerm = req.query.searchTerm.toString();
+      query.searchTerm = req.query.searchTerm.toString();
     }
 
     if (req.query.status) {
-    query.status = req.query.status.toString();
+      query.status = req.query.status.toString();
     }
 
     if (req.query.page) {
-    query.page = req.query.page.toString();
+      query.page = req.query.page.toString();
     }
 
     if (req.query.limit) {
-    query.limit = req.query.limit.toString();
+      query.limit = req.query.limit.toString();
     }
 
     const result = await getAllWells(
@@ -78,6 +85,23 @@ export const getAllWellsController = catchAsync(
   }
 );
 
+// Get Single Well
+export const getWellByIdController = catchAsync(
+  async (req, res) => {
+    const result = await getWellById(
+      req.params.id as string
+    );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Well retrieved successfully.",
+      data: result,
+    });
+  }
+);
+
+// Update Well
 export const updateWellController = catchAsync(
   async (req, res) => {
     const result = await updateWell(
@@ -96,6 +120,7 @@ export const updateWellController = catchAsync(
   }
 );
 
+// Delete Well
 export const deleteWellController = catchAsync(
   async (req, res) => {
     const result = await deleteWell(

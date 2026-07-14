@@ -7,6 +7,7 @@ import {
   getAllWellsController,
   updateWellController,
   deleteWellController,
+  getWellByIdController,
 } from "./well.controller";
 import {
   createWellSchema,
@@ -35,6 +36,13 @@ wellRouter.get(
   "/",
   auth("manager", "admin"),
   getAllWellsController
+);
+
+// Get Single Well
+wellRouter.get(
+  "/:id",
+  auth("manager", "admin"),
+  getWellByIdController
 );
 
 // Update Well

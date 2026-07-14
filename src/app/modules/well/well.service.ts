@@ -105,6 +105,19 @@ export const getAllWells = async (
   };
 };
 
+// Get Single Well
+export const getWellById = async (
+  id: string
+) => {
+  const well = await WellModel.findById(id);
+
+  if (!well) {
+    throw new AppError(404, "Well not found.");
+  }
+
+  return well;
+};
+
 // Find well
 const getWellOrThrow = async (
   id: string

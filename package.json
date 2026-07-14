@@ -18,7 +18,7 @@
   ],
   "author": "Md. Golam Rabbi",
   "engines": {
-    "node": ">=22"
+    "node": ">=22.x"
   },
   "license": "ISC",
   "dependencies": {

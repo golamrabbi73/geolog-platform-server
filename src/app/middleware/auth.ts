@@ -2,10 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import AppError from "../errors/AppError";
 import { verifyToken } from "../modules/auth/jwt";
 import { env } from "../../config/env";
+import catchAsync from "../utils/catchAsync";
 
 const auth =
   (...requiredRoles: string[]) =>
-  async (
+  catchAsync(async (
     req: Request,
     _res: Response,
     next: NextFunction
@@ -40,6 +41,6 @@ const auth =
     }
 
     next();
-  };
+  });
 
 export default auth;

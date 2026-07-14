@@ -40,7 +40,7 @@ coreSampleRouter.get(
 // Get Single Core Sample
 coreSampleRouter.get(
   "/:id",
-  auth("field-engineer", "manager", "admin"),
+  auth("fieldEngineer", "manager", "admin"),
   getCoreSampleByIdController
 );
 

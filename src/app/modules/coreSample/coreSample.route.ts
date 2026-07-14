@@ -7,6 +7,7 @@ import {
   getAllCoreSamplesController,
   updateCoreSampleController,
   deleteCoreSampleController,
+  getCoreSampleByIdController,
 } from "./coreSample.controller";
 import {
   createCoreSampleSchema,
@@ -34,6 +35,13 @@ coreSampleRouter.get(
   "/",
   auth("fieldEngineer", "manager", "admin"),
   getAllCoreSamplesController
+);
+
+// Get Single Core Sample
+coreSampleRouter.get(
+  "/:id",
+  auth("field-engineer", "manager", "admin"),
+  getCoreSampleByIdController
 );
 
 // update sample

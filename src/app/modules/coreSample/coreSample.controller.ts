@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { createCoreSample, deleteCoreSample, getAllCoreSamples, getMyCoreSamples, updateCoreSample } from "./coreSample.service";
+import { createCoreSample, deleteCoreSample, getAllCoreSamples, getCoreSampleById, getMyCoreSamples, updateCoreSample } from "./coreSample.service";
 import { IQuery } from "../../../shared/types/query";
 
 export const createCoreSampleController = catchAsync(
@@ -113,3 +113,19 @@ export const deleteCoreSampleController = catchAsync(
     });
   }
 );
+
+// get single core sample controller
+export const getCoreSampleByIdController =
+  catchAsync(async (req, res) => {
+    const result = await getCoreSampleById(
+      req.params.id as string
+    );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message:
+        "Core sample retrieved successfully.",
+      data: result,
+    });
+  });

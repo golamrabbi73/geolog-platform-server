@@ -152,3 +152,10 @@ export const deleteCoreSample = async (
 
   return sample;
 };
+
+// get single core sample
+export const getCoreSampleById = async (
+  id: string
+) => {
+  return await getCoreSampleOrThrow(id);
+};

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { getMe, loginUser, refreshToken, registerUser } from "./user.service";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
+import { env } from "../../../config/env";
 
 
 // User Registraiton Controller
@@ -27,6 +28,11 @@ export const loginUserController = catchAsync(
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
+      secure: env.NODE_ENV === "production",
+      sameSite:
+        env.NODE_ENV === "production"
+          ? "none"
+          : "lax",
     });
 
     sendResponse(res, {

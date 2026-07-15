@@ -10,9 +10,14 @@ import analyticsRouter from "./app/modules/analytics/analytics.route";
 const app = express();
 
 //Middlewares
+const allowedOrigins: string[] = [
+  "http://localhost:3000",
+  process.env.CLIENT_URL,
+].filter((origin): origin is string => Boolean(origin));
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: allowedOrigins,
     credentials: true,
   })
 );

@@ -7,5 +7,6 @@ export interface IWell {
   depth: number;
   status: "planned" | "active" | "completed";
   description?: string;
+  imageUrl?: string;
   createdBy: Types.ObjectId;
 }

@@ -5,6 +5,7 @@ import {
   createCoreSampleController,
   getMyCoreSamplesController,
   getAllCoreSamplesController,
+  getPublicCoreSamplesController,
   updateCoreSampleController,
   deleteCoreSampleController,
   getCoreSampleByIdController,
@@ -30,6 +31,12 @@ coreSampleRouter.get(
   getMyCoreSamplesController
 );
 
+// get all samples (public explore listing - no auth required)
+coreSampleRouter.get(
+  "/public",
+  getPublicCoreSamplesController
+);
+
 // get all samples (role based)
 coreSampleRouter.get(
   "/",
@@ -37,10 +44,9 @@ coreSampleRouter.get(
   getAllCoreSamplesController
 );
 
-// Get Single Core Sample
+// Get Single Core Sample (public - details page must be publicly accessible)
 coreSampleRouter.get(
   "/:id",
-  auth("fieldEngineer", "manager", "admin"),
   getCoreSampleByIdController
 );
 

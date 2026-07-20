@@ -1,12 +1,10 @@
 export interface IQuery {
   searchTerm?: string;
   page?: string;
- limit?: string;
-
-  // Core Sample
+  limit?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
   rockType?: string;
   wellName?: string;
-
-  // Well
   status?: string;
 }

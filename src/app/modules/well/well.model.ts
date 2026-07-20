@@ -38,6 +38,11 @@ const wellSchema = new Schema<IWell>(
       default: "",
     },
 
+    imageUrl: {
+      type: String,
+      default: "",
+    },
+
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",

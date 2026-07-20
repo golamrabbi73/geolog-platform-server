@@ -105,6 +105,65 @@ export const getAllWells = async (
   };
 };
 
+// Get all wells (public, no auth, no ownership filter)
+export const getPublicWells = async (
+  query: IQuery
+) => {
+  const andConditions: any[] = [];
+
+  if (query.searchTerm) {
+    andConditions.push({
+      $or: [
+        {
+          wellName: {
+            $regex: query.searchTerm,
+            $options: "i",
+          },
+        },
+        {
+          location: {
+            $regex: query.searchTerm,
+            $options: "i",
+          },
+        },
+      ],
+    });
+  }
+
+  if (query.status) {
+    andConditions.push({
+      status: query.status,
+    });
+  }
+
+  const whereConditions =
+    andConditions.length
+      ? { $and: andConditions }
+      : {};
+
+  const page = Number(query.page) || 1;
+  const limit = Number(query.limit) || 12;
+  const skip = (page - 1) * limit;
+
+  const data = await WellModel.find(whereConditions)
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
+
+  const total =
+    await WellModel.countDocuments(whereConditions);
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+    data,
+  };
+};
+
 // Get Single Well
 export const getWellById = async (
   id: string

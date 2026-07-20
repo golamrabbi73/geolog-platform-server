@@ -12,6 +12,12 @@ export const createCoreSampleSchema = z.object({
   rockType: z.string().min(1),
 
   description: z.string().optional(),
+
+  imageUrl: z
+    .string()
+    .url("Image URL must be a valid URL.")
+    .optional()
+    .or(z.literal("")),
 });
 
 export type CreateCoreSampleInput = z.infer<

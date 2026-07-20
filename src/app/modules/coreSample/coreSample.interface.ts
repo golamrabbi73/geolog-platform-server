@@ -11,6 +11,7 @@ export interface ICoreSample {
 
   description?: string;
 
+  imageUrl?: string;
   collectedBy: Types.ObjectId;
 
   createdAt?: Date;

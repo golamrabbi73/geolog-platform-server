@@ -5,6 +5,7 @@ import {
   createWellController,
   getMyWellsController,
   getAllWellsController,
+  getPublicWellsController,
   updateWellController,
   deleteWellController,
   getWellByIdController,
@@ -31,17 +32,22 @@ wellRouter.get(
   getMyWellsController
 );
 
-// Get All Wells
+// Get All Wells (public explore listing - no auth required)
+wellRouter.get(
+  "/public",
+  getPublicWellsController
+);
+
+// Get All Wells (dashboard - role-based visibility)
 wellRouter.get(
   "/",
   auth("manager", "admin"),
   getAllWellsController
 );
 
-// Get Single Well
+// Get Single Well (public - details page must be publicly accessible)
 wellRouter.get(
   "/:id",
-  auth("manager", "admin"),
   getWellByIdController
 );
 

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { createCoreSample, deleteCoreSample, getAllCoreSamples, getCoreSampleById, getMyCoreSamples, updateCoreSample } from "./coreSample.service";
+import { createCoreSample, deleteCoreSample, getAllCoreSamples, getPublicCoreSamples, getCoreSampleById, getMyCoreSamples, updateCoreSample } from "./coreSample.service";
 import { IQuery } from "../../../shared/types/query";
 
 export const createCoreSampleController = catchAsync(
@@ -66,6 +66,43 @@ export const getAllCoreSamplesController = catchAsync(
       req.user.role,
       query
     );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Core samples retrieved successfully.",
+      data: result.data,
+      meta: result.meta,
+    });
+  }
+);
+
+// get all core samples (public, no auth) controller
+export const getPublicCoreSamplesController = catchAsync(
+  async (req, res) => {
+    const query: IQuery = {};
+
+    if (req.query.searchTerm) {
+      query.searchTerm = req.query.searchTerm.toString();
+    }
+
+    if (req.query.rockType) {
+      query.rockType = req.query.rockType.toString();
+    }
+
+    if (req.query.wellName) {
+      query.wellName = req.query.wellName.toString();
+    }
+
+    if (req.query.page) {
+      query.page = req.query.page.toString();
+    }
+
+    if (req.query.limit) {
+      query.limit = req.query.limit.toString();
+    }
+
+    const result = await getPublicCoreSamples(query);
 
     sendResponse(res, {
       statusCode: 200,

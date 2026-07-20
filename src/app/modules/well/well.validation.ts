@@ -12,6 +12,12 @@ export const createWellSchema = z.object({
   status: z.enum(["planned", "active", "completed"]).optional(),
 
   description: z.string().optional(),
+
+  imageUrl: z
+    .string()
+    .url("Image URL must be a valid URL.")
+    .optional()
+    .or(z.literal("")),
 });
 
 export const updateWellSchema = createWellSchema.partial();

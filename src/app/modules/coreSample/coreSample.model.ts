@@ -37,6 +37,11 @@ const coreSampleSchema = new Schema<ICoreSample>(
       default: "",
     },
 
+    imageUrl: {
+      type: String,
+      default: "",
+    },
+
     collectedBy: {
       type: Schema.Types.ObjectId,
       ref: "User",

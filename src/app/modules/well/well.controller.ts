@@ -5,6 +5,7 @@ import {
   createWell,
   getMyWells,
   getAllWells,
+  getPublicWells,
   updateWell,
   deleteWell,
   getWellById,
@@ -74,6 +75,39 @@ export const getAllWellsController = catchAsync(
       req.user.role,
       query
     );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Wells retrieved successfully.",
+      meta: result.meta,
+      data: result.data,
+    });
+  }
+);
+
+// Get All Wells (public, no auth required)
+export const getPublicWellsController = catchAsync(
+  async (req: Request, res: Response) => {
+    const query: IQuery = {};
+
+    if (req.query.searchTerm) {
+      query.searchTerm = req.query.searchTerm.toString();
+    }
+
+    if (req.query.status) {
+      query.status = req.query.status.toString();
+    }
+
+    if (req.query.page) {
+      query.page = req.query.page.toString();
+    }
+
+    if (req.query.limit) {
+      query.limit = req.query.limit.toString();
+    }
+
+    const result = await getPublicWells(query);
 
     sendResponse(res, {
       statusCode: 200,

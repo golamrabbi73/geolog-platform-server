@@ -94,6 +94,54 @@ export const getAllCoreSamples = async (
   };
 };
 
+// get all core samples (public, no auth, no ownership filter)
+export const getPublicCoreSamples = async (
+  query: IQuery
+) => {
+  const andConditions: any[] = [];
+
+  if (query.searchTerm) {
+    andConditions.push({
+      $or: [
+        { sampleId: { $regex: query.searchTerm, $options: "i" } },
+        { wellName: { $regex: query.searchTerm, $options: "i" } },
+      ],
+    });
+  }
+
+  if (query.rockType) {
+    andConditions.push({ rockType: query.rockType });
+  }
+
+  if (query.wellName) {
+    andConditions.push({ wellName: query.wellName });
+  }
+
+  const whereConditions =
+    andConditions.length > 0 ? { $and: andConditions } : {};
+
+  const page = Number(query.page) || 1;
+  const limit = Number(query.limit) || 12;
+  const skip = (page - 1) * limit;
+
+  const result = await CoreSampleModel.find(whereConditions)
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
+
+  const total = await CoreSampleModel.countDocuments(whereConditions);
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+    data: result,
+  };
+};
+
 // get single core sample (internal helper — update/delete e use hobe)
 const getCoreSampleOrThrow = async (id: string) => {
   const sample = await CoreSampleModel.findById(id);
